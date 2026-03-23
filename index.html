@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>$HUNDRED - The Power of 100</title>
+  <meta name="description" content="$HUNDRED is a memecoin movement built on simplicity, scarcity, and explosive potential.">
+  <style>
+    :root {
+      --bg: #08080d;
+      --card: #11111a;
+      --text: #f5f7ff;
+      --muted: #b3bad1;
+      --accent: #ffd34d;
+      --accent-2: #73f7ff;
+      --good: #78ff9f;
+      --danger: #ff8aa8;
+      --border: rgba(255, 255, 255, 0.12);
+      --shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 800px at 10% -20%, rgba(115, 247, 255, 0.2), transparent 50%),
+        radial-gradient(1000px 700px at 100% 0%, rgba(255, 211, 77, 0.22), transparent 45%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .container {
+      width: min(1120px, 92vw);
+      margin: 0 auto;
+    }
+
+    .hero {
+      position: relative;
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      background: #000;
+      height: 100vh; /* Fill the viewport with the hero banner */
+    }
+
+    .hero img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover; /* Crop/scale to fully cover the hero area */
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(8, 8, 13, 0.88) 0%, rgba(8, 8, 13, 0.25) 45%, rgba(8, 8, 13, 0.06) 100%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: absolute;
+      inset: auto 0 0 0;
+      z-index: 2;
+      padding: 2rem 0 2.5rem;
+    }
+
+    .hero-chip {
+      display: inline-block;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(4px);
+      background: rgba(9, 13, 25, 0.45);
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 0.9rem;
+    }
+
+    .hero h1 {
+      margin: 0 0 0.5rem;
+      font-size: clamp(1.8rem, 4vw, 3.5rem);
+      line-height: 1.1;
+      text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 750px;
+      color: #eef2ff;
+      font-size: clamp(1rem, 1.9vw, 1.25rem);
+      text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
+    }
+
+    .quick-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.9rem;
+      margin-top: -1.8rem;
+      position: relative;
+      z-index: 3;
+    }
+
+    .stat {
+      background: linear-gradient(180deg, rgba(17, 17, 26, 0.95), rgba(17, 17, 26, 0.85));
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1rem;
+      box-shadow: var(--shadow);
+    }
+
+    .stat .label {
+      color: var(--muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.3rem;
+    }
+
+    .stat .value {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    main {
+      padding: 2.2rem 0 3.5rem;
+    }
+
+    section {
+      margin-top: 2.2rem;
+    }
+
+    h2 {
+      font-size: clamp(1.3rem, 2.4vw, 2rem);
+      margin-bottom: 0.8rem;
+    }
+
+    .lead {
+      color: var(--muted);
+      margin-top: 0.1rem;
+      max-width: 900px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.1rem 1rem;
+      box-shadow: var(--shadow);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 1rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.9rem;
+    }
+
+    .table {
+      overflow-x: auto;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 560px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 0.68rem 0.55rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--accent);
+      font-size: 0.85rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    ul {
+      margin: 0.5rem 0 0;
+      padding-left: 1.1rem;
+    }
+
+    .badge {
+      display: inline-block;
+      border: 1px solid rgba(120, 255, 159, 0.35);
+      color: var(--good);
+      padding: 0.25rem 0.58rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      margin-left: 0.4rem;
+    }
+
+    .roadmap-item {
+      border-left: 3px solid rgba(255, 211, 77, 0.45);
+      padding: 0.7rem 0 0.7rem 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .roadmap-item h3 {
+      margin: 0 0 0.2rem;
+      font-size: 1rem;
+    }
+
+    .roadmap-item p {
+      margin: 0.2rem 0 0;
+      color: var(--muted);
+    }
+
+    .launch {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .countdown {
+      font-size: clamp(1.4rem, 4vw, 2.15rem);
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+    }
+
+    .video-wrap video,
+    .image-card img {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      display: block;
+      background: #000;
+    }
+
+    .cta {
+      margin-top: 2.4rem;
+      background: linear-gradient(135deg, rgba(255, 211, 77, 0.17), rgba(115, 247, 255, 0.15));
+      border: 1px solid rgba(255, 255, 255, 0.17);
+      border-radius: 18px;
+      padding: 1.2rem;
+    }
+
+    .cta h2 {
+      margin-top: 0;
+    }
+
+    .cta ul {
+      columns: 2;
+      column-gap: 1.5rem;
+    }
+
+    footer {
+      padding: 1.5rem 0 2rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+      text-align: center;
+    }
+
+    .small {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 900px) {
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-content {
+        position: relative;
+        background: linear-gradient(180deg, rgba(8, 8, 13, 0.16), rgba(8, 8, 13, 0.95));
+      }
+
+      .hero::after {
+        display: none;
+      }
+
+      .cta ul {
+        columns: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <img src="banner.png" alt="$HUNDRED hero banner">
+    <div class="hero-content">
+      <div class="container">
+        <span class="hero-chip">The Power of 100</span>
+        <h1>💯 HUNDRED DOLLAR ($HUNDRED)</h1>
+        <p>A token built on simplicity, scarcity, and explosive potential.</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="quick-stats">
+      <div class="stat">
+        <div class="label">Total Supply</div>
+        <div class="value">1,000 $HUNDRED</div>
+      </div>
+      <div class="stat">
+        <div class="label">Target Market Cap</div>
+        <div class="value">$100,000</div>
+      </div>
+      <div class="stat">
+        <div class="label">Target Price</div>
+        <div class="value">$100 / Token</div>
+      </div>
+      <div class="stat">
+        <div class="label">Network</div>
+        <div class="value">Binance Smart Chain</div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <div class="container">
+      <section>
+        <h2>The Movement</h2>
+        <p class="lead">
+          $HUNDRED is more than a token - it is a movement. With a micro-supply of only 1,000 tokens, every holder is positioned for outsized upside.
+          The math is simple and memorable: <strong>$100K market cap = $100 per token.</strong> Early adoption is the first wave.
+        </p>
+      </section>
+
+      <section class="grid-2">
+        <div class="card table">
+          <h2>📊 Token Overview</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Total Supply</td>
+                <td>1,000 $HUNDRED</td>
+              </tr>
+              <tr>
+                <td>Target Market Cap</td>
+                <td>$100,000</td>
+              </tr>
+              <tr>
+                <td>Target Price</td>
+                <td>$100 per token</td>
+              </tr>
+              <tr>
+                <td>Network</td>
+                <td>Binance Smart Chain (BSC)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card image-card">
+          <h2>Project Visual</h2>
+          <img src="square.jpg" alt="$HUNDRED square artwork">
+          <p class="small">Simple. Scarce. Recognizable. Built for meme velocity and community traction.</p>
+        </div>
+      </section>
+
+      <section class="card table">
+        <h2>⚙️ Tokenomics</h2>
+        <p class="lead">$HUNDRED is designed to reward holders, create scarcity, and fuel long-term growth.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Action</th>
+              <th>Tax</th>
+              <th>Allocation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Buy / Sell</td>
+              <td>8%</td>
+              <td>
+                3% BNB Rewards - Earn passive BNB by holding<br>
+                3% MW/Marketing Wallet - Funds growth and adoption<br>
+                1% Liquidity Pool - Maintains strong trading markets<br>
+                1% Auto Burn - Increases scarcity over time
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="grid-3">
+        <div class="card">
+          <h2>💎 Why $HUNDRED?</h2>
+          <ul>
+            <li>Ultra-scarce supply - only 1,000 tokens exist.</li>
+            <li>Clear value target: $100K MC = $100/token.</li>
+            <li>3% BNB passive rewards to holders.</li>
+            <li>Simple branding that sticks: "100".</li>
+            <li>Community-powered growth and visibility.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2>🔥 The Advantage</h2>
+          <ul>
+            <li>Scarcity + clarity keeps the thesis simple.</li>
+            <li>Automatic rewards encourage long-term holding.</li>
+            <li>Community actions drive adoption momentum.</li>
+            <li>1% auto-burn increases scarcity naturally.</li>
+            <li>1% LP supports market stability.</li>
+          </ul>
+        </div>
+        <div class="card video-wrap">
+          <h2>Community Promo Clip</h2>
+          <video autoplay loop playsinline muted preload="metadata">
+            <source src="portraint.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <p class="small">Shareable media to power the launch narrative across social channels.</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>🚀 Vision &amp; Roadmap</h2>
+        <div class="roadmap-item">
+          <h3>Phase 1 - Launch &amp; Awareness <span class="badge">0-3 Days</span></h3>
+          <p>Pre-launch marketing, community build-up, and countdown hype to attract early supporters.</p>
+        </div>
+        <div class="roadmap-item">
+          <h3>Phase 2 - Market Activation <span class="badge">0-1 Week</span></h3>
+          <p>BNB rewards begin for holders while campaigns push $HUNDRED across social platforms.</p>
+        </div>
+        <div class="roadmap-item">
+          <h3>Phase 3 - Expansion &amp; Utility <span class="badge">1-3 Months</span></h3>
+          <p>Introduce staking, partnerships, and ecosystem integrations while maintaining liquidity and scarcity.</p>
+        </div>
+        <div class="roadmap-item">
+          <h3>Phase 4 - Beyond 100 <span class="badge">$100 Goal</span></h3>
+          <p>Celebrate milestones, sustain rewards, and keep long-term community growth in focus.</p>
+        </div>
+      </section>
+
+      <section class="card launch">
+        <div>
+          <h2>⏳ Launch Details</h2>
+          <p><strong>Network:</strong> Binance Smart Chain (BSC)<br><strong>Strategy:</strong> Early holders + aggressive marketing + community-led hype.</p>
+        </div>
+      </section>
+
+      <section class="cta">
+        <h2>💎 Join the Movement</h2>
+        <p>Secure your $HUNDRED and ride the road to $100 per token.</p>
+        <ul>
+          <li>Earn passive BNB rewards</li>
+          <li>Participate in a scarce, high-potential token</li>
+          <li>Join a community-powered project</li>
+          <li>Benefit from continuous liquidity and auto-burn scarcity</li>
+        </ul>
+        <p><strong>$HUNDRED is not just a token - it is the power of 100 in action. 🚀</strong></p>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>$HUNDRED | Built for hype, clarity, and community momentum.</p>
+    </div>
+  </footer>
+
+ 
+</body>
+</html>
