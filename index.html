@@ -620,6 +620,50 @@
         display: none;
       }
     }
+
+    /* --- GeckoTerminal pool chart embed --- */
+    .gecko-embed-section .lead {
+      margin-bottom: 1rem;
+    }
+
+    .gecko-embed-wrap {
+      position: relative;
+      width: 100%;
+      height: clamp(280px, 42vw, 440px);
+      max-height: min(440px, 70vh);
+      min-height: 260px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #111827;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+    }
+
+    .gecko-embed-wrap iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    @media (max-width: 900px) {
+      .gecko-embed-wrap {
+        height: clamp(260px, 58vw, 400px);
+        max-height: min(400px, 65vh);
+        border-radius: 12px;
+        min-height: 240px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .gecko-embed-wrap {
+        height: min(320px, 52dvh);
+        min-height: 220px;
+        border-radius: 10px;
+      }
+    }
   </style>
 </head>
 <body class="locked">
@@ -749,6 +793,20 @@
             </tr>
           </tbody>
         </table>
+      </section>
+
+      <section class="card gecko-embed-section">
+        <h2>📈 Pool Chart</h2>
+        <p class="lead">Live BSC pool view (GeckoTerminal).</p>
+        <div class="gecko-embed-wrap">
+          <iframe
+            id="geckoterminal-embed"
+            title="GeckoTerminal chart embed"
+            src="https://www.geckoterminal.com/bsc/pools/0x7006030bb25bf9bfc756eb322c227bbe383f3057?embed=1&amp;info=0&amp;swaps=0&amp;light_chart=0&amp;chart_type=market_cap&amp;resolution=4h&amp;bg_color=111827"
+            loading="lazy"
+            allow="clipboard-write"
+            allowfullscreen></iframe>
+        </div>
       </section>
 
       <section class="grid-3">
