@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>$HUNDRED - The Power of 100</title>
   <meta name="description" content="$HUNDRED is a memecoin movement built on simplicity, scarcity, and explosive potential.">
   <style>
@@ -48,7 +48,9 @@
       border-bottom: 1px solid var(--border);
       overflow: hidden;
       background: #000;
-      height: 100vh; /* Fill the viewport with the hero banner */
+      /* Avoid mobile URL-bar jump; fill visible viewport when supported */
+      min-height: 100vh;
+      min-height: 100dvh;
     }
 
     .hero img {
@@ -57,7 +59,8 @@
       width: 100%;
       height: 100%;
       display: block;
-      object-fit: cover; /* Crop/scale to fully cover the hero area */
+      object-fit: cover;
+      object-position: center center;
     }
 
     .hero::after {
@@ -66,13 +69,18 @@
       inset: 0;
       background: linear-gradient(to top, rgba(8, 8, 13, 0.88) 0%, rgba(8, 8, 13, 0.25) 45%, rgba(8, 8, 13, 0.06) 100%);
       pointer-events: none;
+      z-index: 1;
     }
 
     .hero-content {
       position: absolute;
       inset: auto 0 0 0;
       z-index: 2;
-      padding: 2rem 0 2.5rem;
+      padding: 2rem 0 max(2.5rem, env(safe-area-inset-bottom, 0px));
+    }
+
+    .hero .container {
+      padding-inline: max(0px, env(safe-area-inset-left, 0px)) max(0px, env(safe-area-inset-right, 0px));
     }
 
     .hero-chip {
@@ -382,17 +390,234 @@
         grid-template-columns: 1fr;
       }
 
-      .hero-content {
+      .hero h1 {
+        font-size: clamp(1.35rem, 6.2vw, 2.15rem);
+        line-height: 1.08;
+      }
+
+      .hero p {
+        font-size: clamp(0.92rem, 3.6vw, 1.12rem);
+        line-height: 1.45;
+        max-width: none;
+      }
+
+      .hero-chip {
+        font-size: 0.72rem;
+        padding: 0.3rem 0.65rem;
+      }
+
+      .cta ul {
+        columns: 1;
+      }
+    }
+
+    /*
+      Portrait phones: don't force full-viewport hero + contain (creates huge black gap).
+      Stack banner (natural height) then copy — no dead space.
+    */
+    @media (max-width: 900px) and (orientation: portrait) {
+      .hero {
+        display: flex;
+        flex-direction: column;
+        min-height: unset;
+        height: auto;
+      }
+
+      .hero img {
         position: relative;
-        background: linear-gradient(180deg, rgba(8, 8, 13, 0.16), rgba(8, 8, 13, 0.95));
+        inset: auto;
+        width: 100%;
+        height: auto;
+        flex-shrink: 0;
+        object-fit: contain;
+        object-position: center top;
       }
 
       .hero::after {
         display: none;
       }
 
-      .cta ul {
-        columns: 1;
+      .hero-content {
+        position: relative;
+        inset: auto;
+        flex: 0 0 auto;
+        padding: 1rem 0 max(1rem, env(safe-area-inset-bottom, 0px));
+        background: linear-gradient(180deg, #06060b 0%, var(--bg) 100%);
+        border-top: 1px solid var(--border);
+      }
+
+      .quick-stats {
+        margin-top: 0.75rem;
+      }
+    }
+
+    @media (max-width: 900px) and (orientation: landscape) {
+      .hero {
+        min-height: 100vh;
+        min-height: 100dvh;
+        min-height: 100svh;
+      }
+
+      .hero img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 22%;
+      }
+
+      .hero::after {
+        display: block;
+      }
+
+      .hero-content {
+        position: absolute;
+        inset: auto 0 0 0;
+        padding: 0.85rem 0 max(0.75rem, env(safe-area-inset-bottom, 0px));
+        background: linear-gradient(
+          to top,
+          rgba(8, 8, 13, 0.94) 0%,
+          rgba(8, 8, 13, 0.55) 45%,
+          transparent 100%
+        );
+      }
+    }
+
+    /* --- Crypto price ticker (CoinGecko) --- */
+    .crypto-ticker {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      box-sizing: border-box;
+      font-family: Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(
+        90deg,
+        rgba(17, 17, 26, 0.98) 0%,
+        rgba(8, 8, 13, 0.98) 50%,
+        rgba(17, 17, 26, 0.98) 100%
+      );
+      color: var(--text);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 0.65rem 0;
+      padding-left: max(3.5rem, env(safe-area-inset-left, 0px));
+      white-space: nowrap;
+    }
+
+    .crypto-ticker-label {
+      position: absolute;
+      left: max(0.75rem, env(safe-area-inset-left, 0px));
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-shadow: 0 0 12px rgba(255, 211, 77, 0.35);
+      pointer-events: none;
+      opacity: 0.95;
+    }
+
+    .crypto-ticker-track {
+      display: inline-flex;
+      align-items: center;
+      gap: 1.75rem;
+      padding-left: 100%;
+      animation: cryptoTickerScroll 38s linear infinite;
+      will-change: transform;
+      position: relative;
+      z-index: 0;
+      mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    }
+
+    .crypto-ticker:hover .crypto-ticker-track {
+      animation-play-state: paused;
+    }
+
+    .crypto-ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      flex-shrink: 0;
+      font-size: 0.875rem;
+    }
+
+    .crypto-symbol {
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.02em;
+    }
+
+    .crypto-price {
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .crypto-change-up {
+      color: var(--good);
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .crypto-change-down {
+      color: var(--danger);
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .crypto-separator {
+      opacity: 0.35;
+      color: var(--muted);
+      margin-left: 0.15rem;
+    }
+
+    @keyframes cryptoTickerScroll {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-100%);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .crypto-ticker {
+        padding-left: max(0.75rem, env(safe-area-inset-left, 0px));
+      }
+
+      .crypto-ticker-track {
+        animation: none;
+        padding-left: 0;
+        justify-content: center;
+        flex-wrap: wrap;
+        white-space: normal;
+        gap: 0.75rem 1.25rem;
+        padding: 0.25rem 0.5rem;
+        mask-image: none;
+        -webkit-mask-image: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .crypto-ticker {
+        padding-left: max(0.75rem, env(safe-area-inset-left, 0px));
+      }
+
+      .crypto-ticker-item {
+        font-size: 0.8125rem;
+      }
+
+      .crypto-ticker-track {
+        gap: 1.15rem;
+        animation-duration: 30s;
+      }
+
+      .crypto-ticker-label {
+        display: none;
       }
     }
   </style>
@@ -401,7 +626,7 @@
   <div id="money-modal" role="dialog" aria-modal="true" aria-labelledby="unlock-title">
     <div class="modal-card">
       <h2 id="unlock-title">Ready for the money?</h2>
-      <p>Are you here to get Rich? Click <strong>Yes</strong> to start the music and get the party started.</p>
+      <p>This page has a hype track. Click <strong>Yes</strong> to start the music and reveal the website.</p>
       <div class="btn-row">
         <button class="btn primary" id="unlock-yes" type="button">Yes, let's go</button>
         <button class="btn secondary" id="unlock-no" type="button">No audio</button>
@@ -423,6 +648,13 @@
       </div>
     </div>
     </header>
+
+    <div class="crypto-ticker" aria-label="Live cryptocurrency prices">
+      <span class="crypto-ticker-label" aria-hidden="true">Live</span>
+      <div class="crypto-ticker-track" id="cryptoTickerTrack">
+        <span class="crypto-ticker-item">Loading prices...</span>
+      </div>
+    </div>
 
   <div class="container">
     <div class="quick-stats">
@@ -640,6 +872,96 @@
 
       if (btnYes) btnYes.addEventListener("click", function () { reveal(true); });
       if (btnNo) btnNo.addEventListener("click", function () { reveal(false); });
+    })();
+  </script>
+  <script>
+    (function () {
+      var coinIds = [
+        "bitcoin",
+        "ethereum",
+        "binancecoin",
+        "solana",
+        "ripple",
+        "dogecoin"
+      ];
+
+      var coinSymbols = {
+        bitcoin: "BTC",
+        ethereum: "ETH",
+        binancecoin: "BNB",
+        solana: "SOL",
+        ripple: "XRP",
+        dogecoin: "DOGE"
+      };
+
+      var tickerTrack = document.getElementById("cryptoTickerTrack");
+      if (!tickerTrack) return;
+
+      function formatPrice(price) {
+        if (price >= 1000) {
+          return price.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          });
+        }
+        if (price >= 1) {
+          return price.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          });
+        }
+        return price.toLocaleString(undefined, {
+          minimumFractionDigits: 4,
+          maximumFractionDigits: 6
+        });
+      }
+
+      function renderTicker(data) {
+        var html = coinIds.map(function (coinId) {
+          var coin = data[coinId];
+          if (!coin || typeof coin.usd === "undefined") {
+            return "";
+          }
+          var change = typeof coin.usd_24h_change === "number" ? coin.usd_24h_change : 0;
+          var changeClass = change >= 0 ? "crypto-change-up" : "crypto-change-down";
+          var changePrefix = change >= 0 ? "+" : "";
+          return (
+            '<span class="crypto-ticker-item">' +
+            '<span class="crypto-symbol">' + coinSymbols[coinId] + "</span>" +
+            '<span class="crypto-price">$' + formatPrice(coin.usd) + "</span>" +
+            '<span class="' + changeClass + '">' + changePrefix + change.toFixed(2) + "%</span>" +
+            '<span class="crypto-separator" aria-hidden="true">•</span>' +
+            "</span>"
+          );
+        }).join("");
+
+        tickerTrack.innerHTML = html + html;
+      }
+
+      function fetchCryptoPrices() {
+        var url =
+          "https://api.coingecko.com/api/v3/simple/price" +
+          "?ids=" + encodeURIComponent(coinIds.join(",")) +
+          "&vs_currencies=usd" +
+          "&include_24hr_change=true";
+
+        fetch(url)
+          .then(function (response) {
+            if (!response.ok) throw new Error("Failed to fetch crypto prices");
+            return response.json();
+          })
+          .then(function (data) {
+            renderTicker(data);
+          })
+          .catch(function (err) {
+            console.error(err);
+            tickerTrack.innerHTML =
+              '<span class="crypto-ticker-item">Unable to load crypto prices right now.</span>';
+          });
+      }
+
+      fetchCryptoPrices();
+      setInterval(fetchCryptoPrices, 60000);
     })();
   </script>
 </body>
