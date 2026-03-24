@@ -115,9 +115,10 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 0.9rem;
-      margin-top: -1.8rem;
+      /* Sit below the ticker — negative margin used to overlap hero only; ticker is between hero and stats */
+      margin-top: 0.75rem;
       position: relative;
-      z-index: 3;
+      z-index: 1;
     }
 
     .stat {
@@ -489,6 +490,7 @@
       width: 100%;
       overflow: hidden;
       position: relative;
+      z-index: 4;
       box-sizing: border-box;
       font-family: Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
       background: linear-gradient(
@@ -529,7 +531,7 @@
       animation: cryptoTickerScroll 38s linear infinite;
       will-change: transform;
       position: relative;
-      z-index: 0;
+      z-index: 1;
       mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
       -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
     }
